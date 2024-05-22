@@ -13,12 +13,33 @@ exports.OrderController = void 0;
 const order_service_1 = require("./order.service");
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const orderData = req.body;
-    const result = yield order_service_1.OrderService.createOrder(orderData);
-    res.json({
-        success: true,
-        message: "Order created successfully",
-        data: result,
-    });
+    if (!orderData.productId || !orderData.quantity) {
+        res.json({
+            success: false,
+            message: "Product ID & Quantity Needed",
+        });
+    }
+    try {
+        const result = yield order_service_1.OrderService.createOrder(orderData);
+        if (result.status === "Unavailable") {
+            // console.log("unavailable");
+            return res.json({
+                success: true,
+                message: "Stock Unavailable",
+            });
+        }
+        return res.json({
+            success: true,
+            message: "Order created successfully",
+            data: result,
+        });
+    }
+    catch (err) {
+        res.json({
+            success: false,
+            message: err.message,
+        });
+    }
 });
 const getOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const queryEmail = req.query.email;

@@ -3,6 +3,7 @@ export type TOrder = {
   productId: string;
   price: number;
   quantity: number;
+  status: string;
 };
 
 // "email": "level2@programming-hero.com",
