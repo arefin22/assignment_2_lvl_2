@@ -13,7 +13,7 @@ app.use("/api/products", ProductRoutes);
 
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello Next!");
+  res.send("Hello Duniya!");
 });
 
 export default app;
