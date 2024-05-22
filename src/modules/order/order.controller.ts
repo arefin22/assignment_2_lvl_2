@@ -12,6 +12,17 @@ const createOrder = async (req: Request, res: Response) => {
   });
 };
 
+const getOrders = async (req: Request, res: Response) => {
+    const queryEmail = req.query.email as string
+  const result = await OrderService.getOrders(queryEmail);
+  res.json({
+    success: true,
+    message: "Orders fetched successfully",
+    data: result,
+  });
+};
+
 export const OrderController = {
   createOrder,
+  getOrders,
 };
