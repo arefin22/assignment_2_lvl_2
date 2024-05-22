@@ -18,3 +18,13 @@ npm i
 ```
 npm run start:dev
 ```
+
+# Usage
+Use a tool like postman to interact with the API endpoints 
+
+## API EndPoints
+1. /api/products (post/get)
+2. /api/orders (post/get)
+3. /api/products?searchTerm=smartwatch (get)
+4. /api/products/:productID (get/ update/ delete)
+5. /api/orders?email=userEmail (get)
