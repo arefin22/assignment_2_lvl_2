@@ -53,11 +53,19 @@ const getOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const queryEmail = req.query.email;
         const result = yield order_service_1.OrderService.getOrders(queryEmail);
-        res.json({
-            success: true,
-            message: "Orders fetched successfully",
-            data: result,
-        });
+        if (result.length === 0) {
+            return res.json({
+                success: false,
+                message: "No valid Email is available",
+            });
+        }
+        else {
+            res.json({
+                success: true,
+                message: "Orders fetched successfully",
+                data: result,
+            });
+        }
     }
     catch (err) {
         res.json({

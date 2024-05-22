@@ -47,11 +47,18 @@ const getOrders = async (req: Request, res: Response) => {
   try {
     const queryEmail = req.query.email as string;
     const result = await OrderService.getOrders(queryEmail);
-    res.json({
-      success: true,
-      message: "Orders fetched successfully",
-      data: result,
-    });
+    if (result.length === 0) {
+      return res.json({
+        success: false,
+        message: "No valid Email is available",
+      });
+    } else {
+      res.json({
+        success: true,
+        message: "Orders fetched successfully",
+        data: result,
+      });
+    }
   } catch (err: any) {
     res.json({
       success: false,
