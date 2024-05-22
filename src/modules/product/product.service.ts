@@ -23,23 +23,6 @@ const getAllProduct = async (searchTerm: string) => {
     return result;
   }
 };
-// search a Product
-// const searchProduct = async (searchTerm: string) => {
-//   if (searchTerm) {
-//     const result = await ProductModel.find({
-//       $or: [
-//         { name: { $regex: searchTerm, $options: "i" } },
-//         { description: { $regex: searchTerm, $options: "i" } },
-//         { category: { $regex: searchTerm, $options: "i" } },
-//         { tags: { $regex: searchTerm, $options: "i" } },
-//       ],
-//     });
-//     return result;
-//   } else {
-//     const result = await ProductModel.find();
-//     return result;
-//   }
-// };
 
 const singleProduct = async (productID: string) => {
   const result = await ProductModel.findById(productID);
@@ -65,5 +48,4 @@ export const productService = {
   singleProduct,
   updateProduct,
   deleteProduct,
-  //   searchProduct,
 };

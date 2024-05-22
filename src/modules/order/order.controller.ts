@@ -1,8 +1,19 @@
 import { Request, Response } from "express";
 import { OrderService } from "./order.service";
+import { orderValidationSchema } from "./order.validation";
 
 const createOrder = async (req: Request, res: Response) => {
   const orderData = req.body;
+
+  const { error } = orderValidationSchema.validate(orderData);
+
+  if (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.details[0].message,
+    });
+  }
+
   if (!orderData.productId || !orderData.quantity) {
     res.json({
       success: false,
@@ -14,8 +25,8 @@ const createOrder = async (req: Request, res: Response) => {
     if (result.status === "Unavailable") {
       // console.log("unavailable");
       return res.json({
-        success: true,
-        message: "Stock Unavailable",
+        success: false,
+        message: "Insufficient quantity available in inventory",
       });
     }
 
@@ -33,13 +44,20 @@ const createOrder = async (req: Request, res: Response) => {
 };
 
 const getOrders = async (req: Request, res: Response) => {
-  const queryEmail = req.query.email as string;
-  const result = await OrderService.getOrders(queryEmail);
-  res.json({
-    success: true,
-    message: "Orders fetched successfully",
-    data: result,
-  });
+  try {
+    const queryEmail = req.query.email as string;
+    const result = await OrderService.getOrders(queryEmail);
+    res.json({
+      success: true,
+      message: "Orders fetched successfully",
+      data: result,
+    });
+  } catch (err: any) {
+    res.json({
+      success: false,
+      message: err.message,
+    });
+  }
 };
 
 export const OrderController = {

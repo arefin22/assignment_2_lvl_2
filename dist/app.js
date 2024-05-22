@@ -12,6 +12,12 @@ app.use(express_1.default.json());
 // Routes
 app.use("/api/products", product_route_1.ProductRoutes);
 app.use("/api/orders", order_route_1.orderRoutes);
+app.use((req, res) => {
+    res.status(404).json({
+        success: false,
+        message: "Route not found",
+    });
+});
 app.get("/", (req, res) => {
     res.send("Hello Duniya!");
 });

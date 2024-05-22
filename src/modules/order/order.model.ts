@@ -40,6 +40,7 @@ OrderSchema.pre("save", async function (next) {
     }
     // if Product is available
     else {
+      // Reducing the product Quantity
       product.inventory.quantity -= order.quantity;
       if (product.inventory.quantity === 0) {
         product.inventory.inStock = false;
@@ -55,6 +56,5 @@ OrderSchema.pre("save", async function (next) {
   }
 });
 
-// Reducing the product Quantity
 
 export const OrderModel = model<TOrder>("Order", OrderSchema);

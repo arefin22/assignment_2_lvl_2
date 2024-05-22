@@ -11,8 +11,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderController = void 0;
 const order_service_1 = require("./order.service");
+const order_validation_1 = require("./order.validation");
 const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const orderData = req.body;
+    const { error } = order_validation_1.orderValidationSchema.validate(orderData);
+    if (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.details[0].message,
+        });
+    }
     if (!orderData.productId || !orderData.quantity) {
         res.json({
             success: false,
@@ -24,8 +32,8 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         if (result.status === "Unavailable") {
             // console.log("unavailable");
             return res.json({
-                success: true,
-                message: "Stock Unavailable",
+                success: false,
+                message: "Insufficient quantity available in inventory",
             });
         }
         return res.json({
@@ -42,13 +50,21 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 const getOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const queryEmail = req.query.email;
-    const result = yield order_service_1.OrderService.getOrders(queryEmail);
-    res.json({
-        success: true,
-        message: "Orders fetched successfully",
-        data: result,
-    });
+    try {
+        const queryEmail = req.query.email;
+        const result = yield order_service_1.OrderService.getOrders(queryEmail);
+        res.json({
+            success: true,
+            message: "Orders fetched successfully",
+            data: result,
+        });
+    }
+    catch (err) {
+        res.json({
+            success: false,
+            message: err.message,
+        });
+    }
 });
 exports.OrderController = {
     createOrder,
