@@ -13,13 +13,36 @@ const createProduct = async (req: Request, res: Response) => {
 };
 
 const getAllProduct = async (req: Request, res: Response) => {
-  const result = await productService.getAllProduct(req.body);
+  //   const result = await productService.getAllProduct(req.body);
+  //   res.json({
+  //     success: true,
+  //     message: "Products fetched successfully!",
+  //     data: result,
+  //   });
+  const searchTerm = req.query.searchTerm as string;
+//   console.log({ searchTerm });
+  const result = await productService.getAllProduct(searchTerm);
   res.json({
     success: true,
     message: "Products fetched successfully!",
     data: result,
   });
 };
+
+// const searchProduct = async (req: Request, res: Response) => {
+//   try {
+//     const searchTerm = req.query.searchTerm as string;
+//     console.log({ searchTerm });
+//     const result = await productService.searchProduct(searchTerm);
+//     res.json({
+//       success: true,
+//       message: "Products fetched successfully!",
+//       data: result,
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
 
 const singleProduct = async (req: Request, res: Response) => {
   const result = await productService.singleProduct(req.params.productID);
@@ -57,4 +80,5 @@ export const ProductController = {
   singleProduct,
   updateProduct,
   deleteProduct,
+//   searchProduct,
 };
