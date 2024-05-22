@@ -21,14 +21,7 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     });
 });
 const getAllProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    //   const result = await productService.getAllProduct(req.body);
-    //   res.json({
-    //     success: true,
-    //     message: "Products fetched successfully!",
-    //     data: result,
-    //   });
     const searchTerm = req.query.searchTerm;
-    //   console.log({ searchTerm });
     const result = yield product_service_1.productService.getAllProduct(searchTerm);
     res.json({
         success: true,
@@ -36,20 +29,6 @@ const getAllProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         data: result,
     });
 });
-// const searchProduct = async (req: Request, res: Response) => {
-//   try {
-//     const searchTerm = req.query.searchTerm as string;
-//     console.log({ searchTerm });
-//     const result = await productService.searchProduct(searchTerm);
-//     res.json({
-//       success: true,
-//       message: "Products fetched successfully!",
-//       data: result,
-//     });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
 const singleProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield product_service_1.productService.singleProduct(req.params.productID);
     res.json({
@@ -80,5 +59,4 @@ exports.ProductController = {
     singleProduct,
     updateProduct,
     deleteProduct,
-    //   searchProduct,
 };
