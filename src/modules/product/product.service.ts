@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { TProduct } from "./product.interface";
 import { ProductModel } from "./product.model";
 
@@ -53,18 +52,11 @@ const updateProduct = async (productID: string, product: TProduct) => {
 };
 
 const deleteProduct = async (productID: string) => {
-  if (!mongoose.Types.ObjectId.isValid(productID)) {
-    throw new Error("Invalid product ID");
+  const result = await ProductModel.findByIdAndDelete(productID);
+  if (!result) {
+    throw new Error("Product not found");
   }
-  try {
-    const result = await ProductModel.findByIdAndDelete(productID);
-    if (!result) {
-      throw new Error("Product not found");
-    }
-    return result;
-  } catch (error: any) {
-    throw new Error(`Error deleting product: ${error.message}`);
-  }
+  return result;
 };
 
 export const productService = {
@@ -73,5 +65,5 @@ export const productService = {
   singleProduct,
   updateProduct,
   deleteProduct,
-//   searchProduct,
+  //   searchProduct,
 };
