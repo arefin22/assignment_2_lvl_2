@@ -29,14 +29,22 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     });
 });
 const getAllProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const searchTerm = req.query.searchTerm;
     try {
-        const searchTerm = req.query.searchTerm;
         const result = yield product_service_1.productService.getAllProduct(searchTerm);
-        res.json({
-            success: true,
-            message: "Products fetched successfully!",
-            data: result,
-        });
+        if (result.length === 0) {
+            return res.json({
+                success: false,
+                message: "No searchTerm is available",
+            });
+        }
+        else {
+            return res.json({
+                success: true,
+                message: "Products fetched successfully!",
+                data: result,
+            });
+        }
     }
     catch (_a) {
         res.status(500).json({

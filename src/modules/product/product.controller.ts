@@ -22,14 +22,21 @@ const createProduct = async (req: Request, res: Response) => {
 };
 
 const getAllProduct = async (req: Request, res: Response) => {
+  const searchTerm = req.query.searchTerm as string;
   try {
-    const searchTerm = req.query.searchTerm as string;
     const result = await productService.getAllProduct(searchTerm);
-    res.json({
-      success: true,
-      message: "Products fetched successfully!",
-      data: result,
-    });
+    if (result.length === 0) {
+      return res.json({
+        success: false,
+        message: "No searchTerm is available",
+      });
+    } else {
+      return res.json({
+        success: true,
+        message: "Products fetched successfully!",
+        data: result,
+      });
+    }
   } catch {
     res.status(500).json({
       success: false,
